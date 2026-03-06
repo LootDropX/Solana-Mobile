@@ -49,3 +49,6 @@ Thumbs.db
 
 # Logs
 *.log
+
+# Supabase local CLI temp artifacts
+supabase/.temp/
