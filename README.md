@@ -12,6 +12,8 @@
 
 *Go outside. Claim real crypto. Own it forever.*
 
+**📲 [Download Deployed APK (EAS Build)](https://expo.dev/accounts/uncletom29/projects/lootdrop/builds/950664f9-d399-4f18-b4a9-45e6150ab507)**
+
 </div>
 
 ---
