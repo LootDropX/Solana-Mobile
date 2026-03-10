@@ -12,7 +12,7 @@
 
 *Go outside. Claim real crypto. Own it forever.*
 
-**📲 [Download Deployed APK (EAS Build)](https://expo.dev/accounts/uncletom29/projects/lootdrop/builds/950664f9-d399-4f18-b4a9-45e6150ab507)**
+**📲 [Download Deployed APK (EAS Build)](https://expo.dev/artifacts/eas/jobbCY7AXncB3vZS2dZF2C.aab)**
 
 </div>
 
@@ -36,13 +36,12 @@
    - [5. Run the Mobile App](#5-run-the-mobile-app)
 10. [App Screens](#app-screens)
 11. [Developer Mode](#developer-mode)
-12. [Seeding Devnet Drops](#seeding-devnet-drops)
-13. [Hooks Reference](#hooks-reference)
-14. [On-Chain Program](#on-chain-program)
-15. [Supabase Edge Functions](#supabase-edge-functions)
-16. [Scripts](#scripts)
-17. [Contributing](#contributing)
-18. [License](#license)
+12. [Hooks Reference](#hooks-reference)
+13. [On-Chain Program](#on-chain-program)
+14. [Supabase Edge Functions](#supabase-edge-functions)
+15. [Scripts](#scripts)
+16. [Contributing](#contributing)
+17. [License](#license)
 
 ---
 
@@ -54,9 +53,9 @@ All asset custody and claim logic lives in a trustless **Anchor program** on Sol
 
 Key properties:
 - **Trustless** — the Anchor program enforces all rules; the client cannot lie about proximity
-- **Permissionless** — anyone with a Devnet wallet can claim or create drops
+- **Permissionless** — anyone with a wallet can claim or create drops
 - **Non-custodial** — SOL rewards are escrowed in a vault PDA and released atomically on claim
-- **Composable** — drops support SOL, any SPL token, and cNFTs/NFTs via Metaplex
+- **Composable** — drops support SOL, $SKR any SPL token, and cNFTs/NFTs via Metaplex
 
 ---
 
@@ -84,7 +83,7 @@ Inventory updates · Leaderboard climbs · Haptic celebration fires
 graph TD
     A[Seeker Device] -->|GPS coords| B[React Native App]
     B -->|MWA v2| C[Phantom / Solflare]
-    C -->|Sign tx| D[Solana Devnet]
+    C -->|Sign tx| D[Solana ]
     D -->|Anchor Program| E[Drop PDA]
     D -->|Anchor Program| F[ClaimRecord PDA]
     D -->|Anchor Program| G[Vault PDA]
@@ -222,8 +221,6 @@ Loot-Drop/
 │       └── nearby-drops/       # Edge Function — PostGIS proximity query
 │           └── index.ts
 │
-├── scripts/
-│   └── seed-devnet-drops.ts    # Seeds 15 demo drops on Devnet + Supabase
 │
 ├── app.config.ts               # Expo config (env var injection)
 ├── babel.config.js
@@ -262,7 +259,7 @@ cp .env.example .env
 
 | Variable | Description | Required |
 |---|---|---|
-| `EXPO_PUBLIC_SOLANA_RPC_URL` | Solana RPC endpoint (Helius, QuickNode, or `https://api.devnet.solana.com`) | ✅ |
+| `EXPO_PUBLIC_SOLANA_RPC_URL` | Solana RPC endpoint (Helius, QuickNode) | ✅ |
 | `EXPO_PUBLIC_PROGRAM_ID` | Deployed Anchor program ID (base58) | ✅ |
 | `EXPO_PUBLIC_SUPABASE_URL` | Supabase project URL | ✅ |
 | `EXPO_PUBLIC_SUPABASE_ANON_KEY` | Supabase anon/public key (safe to expose) | ✅ |
@@ -349,7 +346,7 @@ anchor deploy
 cd ..
 ```
 
-> If you only want to run the frontend against the pre-seeded demo drops on Devnet, you can skip the Anchor deployment and use the placeholder program ID from `.env.example`.
+
 
 ### 5. Run the Mobile App
 
@@ -433,28 +430,6 @@ Dev Mode is enforced at the store layer (`map.store.ts`). Both `useClaimDrop` an
 
 ---
 
-## Seeding Devnet Drops
-
-The `scripts/seed-devnet-drops.ts` script inserts 15 demo drops into Supabase (Devnet Solana transactions are simulated with placeholder on-chain addresses for speed):
-
-| Count | Rarity | SOL Range | Location |
-|---|---|---|---|
-| 8 | Common | 0.002 – 0.009 SOL | Random within SF bounding box |
-| 4 | Rare | 0.04 – 0.09 SOL | Random within SF bounding box |
-| 2 | Epic | 0.25 – 0.40 SOL | Random within SF bounding box |
-| 1 | Legendary | 1.0 SOL | Union Square, SF (`37.7879, -122.4075`) |
-
-**Run the seed script:**
-
-```bash
-EXPO_PUBLIC_SUPABASE_URL=https://your-project.supabase.co \
-SUPABASE_SERVICE_ROLE_KEY=your-service-role-key \
-EXPO_PUBLIC_SOLANA_RPC_URL=https://api.devnet.solana.com \
-EXPO_PUBLIC_PROGRAM_ID=LootXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX \
-npx ts-node scripts/seed-devnet-drops.ts
-```
-
----
 
 ## Hooks Reference
 
@@ -628,8 +603,6 @@ Row Level Security is enabled on both `drops` and `claims`. Public reads are all
 | Run iOS | `npm run ios` | Build & launch on iOS (secondary) |
 | Lint | `npm run lint` | ESLint over `.ts` and `.tsx` |
 | Type-check | `npm run typecheck` | `tsc --noEmit` |
-| Test | `npm test` | Jest (jest-expo preset) |
-| Seed drops | `npx ts-node scripts/seed-devnet-drops.ts` | Insert 15 demo drops on Devnet |
 
 ---
 
